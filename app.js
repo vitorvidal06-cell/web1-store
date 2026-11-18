@@ -5,7 +5,7 @@ import { buscarProdutos } from './src/controllers/produtoController.js';
 import { buscarProdutoPorId } from './src/repositories/produtoRepository.js';
 import produtoRouter from './src/routes/produtoRoutes.js';
 
-const PORTA = process.env.PORT;
+const PORTA = process.env.PORTA;
 
 const app = express();
 

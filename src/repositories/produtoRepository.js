@@ -1,40 +1,25 @@
-
-import { readFile, writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const arquivo = path.resolve(__dirname, "../database/db.json");
+import { db } from "../prisma/db.ts";
 
 async function buscarTodosProdutos() {
-    const conteudo = await readFile(arquivo);
-
-    return JSON.parse(conteudo);
+  return await db.orm.public.Produto.all();
 }
 
-async function buscarProdutoPorId(id) {
-    const produtos = await buscarTodosProdutos();
-    return produtos.find(p => p.id === id);
+async function buscarPorId(id) {
+  return await db.orm.public.Produto
+    .whereUnique({ id })
+    .first();
 }
 
 async function cadastrarProduto(dadosProduto) {
-    const produtos = await buscarTodosProdutos();
-
-    let novoID = 1;
-
-    if (produtos.length > 0) {
-        novoID = Math.max(...produtos.map(p => p.id)) + 1;
-    }
-
-    const novoProduto = { ...dadosProduto, id: novoID };
-    produtos.push(novoProduto);
-
-    await writeFile(arquivo, JSON.stringify(produtos, null, 2), "utf-8");
-    return novoProduto;
+  return await db.orm.public.Produto.create({
+    nome: dadosProduto.nome,
+    preco: Number(dadosProduto.preco).toFixed(2),
+    categoria: dadosProduto.categoria,
+  });
 }
 
 export {
-    buscarTodosProdutos,
-    buscarProdutoPorId,
-    cadastrarProduto,
+  buscarTodosProdutos,
+  buscarPorId,
+  cadastrarProduto,
 };

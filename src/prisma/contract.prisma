@@ -1,0 +1,12 @@
+// use prisma-8
+
+model Produto {
+  id        Int                  @id @default(autoincrement())
+  nome      String
+  preco     NumericString(10, 2)
+  categoria String
+  createdAt DateTime             @default(now())
+  updatedAt temporal.UpdatedAt
+
+  @@map("produtos")
+}

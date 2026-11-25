@@ -1,15 +1,15 @@
 import { Router } from "express";
 
 import {
-    buscarProdutos,
-    buscarProdutoPorIdController,
-    salvarProduto
+  buscarProdutos,
+  buscarProdutoPorId,
+  salvarProduto,
 } from "../controllers/produtoController.js";
 
 const router = Router();
 
 router.get("/", buscarProdutos);
-router.get("/:id", buscarProdutoPorIdController);
+router.get("/:id", buscarProdutoPorId);
 router.post("/", salvarProduto);
 
 export default router;
